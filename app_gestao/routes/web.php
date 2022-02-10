@@ -13,13 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', 'PrincipalController@principal')->name('site.index');
+Route::get('/sobre', 'SobreController@sobre')->name('site.sobre');
+Route::get('/contato', 'ContatoController@contato')->name('site.contato');
 
-//Laravel 8.x
-//Route::get('/', [\App\Http\Controllers\PrincipalController::class, 'principal']);
+Route::get('/login', function() { return 'Login'; })->name('site.login');
 
-Route::get('/', 'PrincipalController@principal');
-Route::get('/sobre', 'SobreController@sobre');
-Route::get('/contato', 'ContatoController@contato');
+Route::prefix('/app')->group(function() {
+    Route::get('/clientes', function() { return 'Clientes'; })->name('app.clientes');
+    Route::get('/fornecedores', function() { return 'Fornecedores'; })->name('app.fornecedores');
+    Route::get('/produtos', function() { return 'Produtos'; })->name('app.produtos');
+});
+
+Route::fallback(function() { return 'Rota não existe'; });
