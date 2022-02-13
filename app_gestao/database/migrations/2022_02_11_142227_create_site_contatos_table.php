@@ -14,13 +14,14 @@ class CreateSiteContatosTable extends Migration
     public function up()
     {
         Schema::create('site_contatos', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->timestamps();
+            $table->id();
             $table->string('nome', 100);
             $table->string('telefone', 20);
             $table->string('email', 100);
             $table->integer('motivo_contato');
             $table->text('mensagem');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
