@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        {{-- @yield('navbar', View::make('site.layout.components.topo')) --}}
+        {{-- @yield('navbar', View::make('app.layout.components.topo')) --}}
         @include('app.layout.components.topo')
         @yield('conteudo')
     </body>

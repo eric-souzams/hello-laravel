@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Cliente;
+use App\Pedido;
 use Illuminate\Http\Request;
 
-class ClienteController extends Controller
+class PedidoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,8 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        $clientes = Cliente::paginate(5);
-
-        return view('app.clientes.index', ['clientes' => $clientes, 'request' => $request->all()]);
+        $pedidos = Pedido::paginate(5);
+        return view('app.pedidos.index', ['pedidos' => $pedidos, 'request' => $request->all()]);
     }
 
     /**
@@ -26,7 +26,9 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('app.clientes.create');
+        $clientes = Cliente::all();
+
+        return view('app.pedidos.create', ['clientes' => $clientes]);
     }
 
     /**
@@ -38,30 +40,27 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $regras = [
-            'nome' => 'required|min:3|max:100'
+            'cliente_id' => 'exists:clientes,id'
         ];
 
         $feedback = [
-            'required' => 'O preenchimento do campo :attribute é obrigatório.',
-
-            'nome.min' => 'A quantidade minima de caracteres é 3.',
-            'nome.max' => 'A quantidade maxima de caracteres é 100.',
+            'cliente_id.exists' => 'O cliente informado não existe.'
         ];
 
         $request->validate($regras, $feedback);
 
-        Cliente::create($request->all());
+        Pedido::create($request->all());
 
-        return redirect()->route('cliente.index');
+        return redirect()->route('pedido.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Cliente  $cliente
+     * @param  \App\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function show(Cliente $cliente)
+    public function show(Pedido $pedido)
     {
         //
     }
@@ -69,48 +68,47 @@ class ClienteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Cliente  $cliente
+     * @param  \App\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function edit(Cliente $cliente)
+    public function edit(Pedido $pedido)
     {
-        return view('app.clientes.edit', ['cliente' => $cliente]);
+        $clientes = Cliente::all();
+
+        return view('app.pedidos.edit', ['clientes' => $clientes, 'pedido' => $pedido]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Cliente  $cliente
+     * @param  \App\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(Request $request, Pedido $pedido)
     {
         $regras = [
-            'nome' => 'required|min:3|max:100'
+            'cliente_id' => 'exists:clientes,id'
         ];
 
         $feedback = [
-            'required' => 'O preenchimento do campo :attribute é obrigatório.',
-
-            'nome.min' => 'A quantidade minima de caracteres é 3.',
-            'nome.max' => 'A quantidade maxima de caracteres é 100.',
+            'cliente_id.exists' => 'O cliente informado não existe.'
         ];
 
         $request->validate($regras, $feedback);
 
-        $cliente->update($request->all());
+        $pedido->update($request->all());
 
-        return redirect()->route('cliente.index');
+        return redirect()->route('pedido.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Cliente  $cliente
+     * @param  \App\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cliente $cliente)
+    public function destroy(Pedido $pedido)
     {
         //
     }
