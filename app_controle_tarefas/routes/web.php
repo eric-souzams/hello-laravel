@@ -20,6 +20,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes(['verify' => true]);
 
-Route::resource('tarefa', 'App\Http\Controllers\TarefaController');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
+
+Route::resource('tarefa', 'App\Http\Controllers\TarefaController')->middleware('verified');

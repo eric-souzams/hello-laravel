@@ -34,7 +34,7 @@ class TarefaController extends Controller
      */
     public function create()
     {
-        //
+        return view('tarefa.create');
     }
 
     /**
@@ -45,7 +45,14 @@ class TarefaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tarefa' => 'required|string|min:1|max:200',
+            'data_limite_conclusao' => 'date|required'
+        ]);
+
+        $createdTarefa = Tarefa::create($request->all());
+
+        return redirect()->route('tarefa.show', ['tarefa' => $createdTarefa->id]);
     }
 
     /**
@@ -56,7 +63,7 @@ class TarefaController extends Controller
      */
     public function show(Tarefa $tarefa)
     {
-        //
+        dd($tarefa->getAttributes());
     }
 
     /**
