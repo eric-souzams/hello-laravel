@@ -12,6 +12,7 @@ class Tarefa extends Model
     protected $table = 'tarefas';
 
     protected $fillable = [
+        'user_id',
         'tarefa',
         'data_limite_conclusao'
     ];
